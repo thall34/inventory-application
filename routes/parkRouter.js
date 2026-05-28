@@ -2,7 +2,7 @@ const { Router } = require('express');
 const parkRouter = Router();
 const parkController = require('../controllers/parkController');
 
-parkRouter.get('/', parkController.getParkPage);
+parkRouter.get('/', parkController.getAllParks);
 parkRouter.get('/new', parkController.getNewParkForm);
 parkRouter.post('/new', parkController.postNewPark);
 parkRouter.get('/update/:id', parkController.getUpdateParkForm);

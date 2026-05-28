@@ -5,19 +5,19 @@
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
         <main> 
-            <% if (!parks) { %>
+            <% if (!parks || parks.length === 0) { %>
                 <p>No parks logged yet</p>
             <% } else { %>
                 <ul>
                     <% parks.map((park) => { %>
                         <h2><%= park.name %></h2>
-                        <a href="/park/<%= park.id %>">
+                        <a href="/park/<%= park.park_id %>">
                             <button>View More Info</button>
                         </a>
-                        <a href="/park/update/<%= park.id %>">
+                        <a href="/park/update/<%= park.park_id %>">
                             <button>Update Park</button>
                         </a>
-                        <a href="/park/delete/<%= park.id %>">
+                        <a href="/park/delete/<%= park.park_id %>">
                             <button>Delete Park</button>
                         </a>
                     <% }); %>

@@ -1,26 +1,10 @@
-const testArray = [
-    {
-        id: 1,
-        name: 'Behemoth',
-        inversions: 0,
-        speed: 77,
-        height: 230,
-        length: 5318,
-    },
-    {
-        id: 2,
-        name: 'Leviathan',
-        inversions: 0,
-        speed: 92,
-        height: 306,
-        length: 5486,
-    },
-];
+const db = require('../db/queries');
 
-function getAllCoasters(req, res) {
+async function getAllCoasters(req, res) {
+    const coasters = await db.getAllCoasters();
     res.render('allCoasters', {
-        title: 'Coaster Info',
-        coasters: testArray,
+        title: 'All Coasters',
+        coasters: coasters,
     });
 };
 
@@ -30,71 +14,40 @@ function getNewCoasterForm(req, res) {
     });
 };
 
-function postNewCoaster(req, res) {
+async function postNewCoaster(req, res) {
     const { coasterName, coasterInversions, coasterSpeed, coasterHeight, coasterLength } = req.body;
-    const id = testArray.length + 1;
-    testArray.push({ 
-        id: id,
-        name: coasterName, 
-        inversions: coasterInversions, 
-        speed: coasterSpeed, 
-        height: coasterHeight, 
-        length: coasterLength, 
-    });
-
+    await db.postNewCoaster(coasterName, coasterInversions, coasterSpeed, coasterHeight, coasterLength);
     res.redirect('/coaster');
 };
 
-function getUpdateCoasterForm(req, res) {
+async function getUpdateCoasterForm(req, res) {
     const id = Number(req.params.id);
-    const coaster = testArray.find((coaster) => coaster.id === id);
+    const coaster = await db.findCoasterById(id);
     res.render('updateCoasterForm', {
         title: 'Update Coaster',
         coaster: coaster,
     });
 };
 
-function postUpdatedCoaster(req, res) {
+async function postUpdatedCoaster(req, res) {
     const { coasterName, coasterInversions, coasterSpeed, coasterHeight, coasterLength } = req.body;
     const id = Number(req.params.id);
-    const coasterId = testArray.findIndex((coaster) => coaster.id === id);
-    if (coasterId < 0) {
-        return;
-    };
-
-    testArray[coasterId] = {
-        id: id,
-        name: coasterName, 
-        inversions: coasterInversions, 
-        speed: coasterSpeed, 
-        height: coasterHeight, 
-        length: coasterLength,            
-    };
-
+    await db.updateExistingCoaster(coasterName, coasterInversions, coasterSpeed, coasterHeight, coasterLength, id)
     res.redirect('/coaster');
 };
 
-function getSingleCoaster(req, res) {
+async function getSingleCoaster(req, res) {
     const id = Number(req.params.id);
-    const coaster = testArray.find((coaster) => coaster.id === id);
-    if (!coaster) {
-        return;
-    }
-
+    const coaster = await db.findCoasterById(id);
     res.render('coasterData', {
         title: 'Coaster Data',
         coaster: coaster,
     });
 };
 
-function deleteSingleCoaster(req, res) {
+async function deleteSingleCoaster(req, res) {
     const id = Number(req.params.id);
-    const coasterId = testArray.findIndex((coaster) => coaster.id === id);
-    if (coasterId < 0) {
-        return;
-    };
-
-    testArray.splice(coasterId, 1);
+    await db.deleteCoasterById(id);
     res.redirect('/coaster');
 };
 

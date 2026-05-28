@@ -1,20 +1,10 @@
-const { post } = require("../routes/indexRouter");
+const db = require('../db/queries');
 
-const testArray = [
-    {
-        id: 1,
-        name: 'Tyler Hall',
-    },
-    {
-        id: 2,
-        name: 'Amber Hall',
-    },
-];
-
-function getRiderPage(req, res) {
+async function getAllRiders(req, res) {
+    const riders = await db.getAllRiders();
     res.render('allRiders', {
-        title: 'Rider Info',
-        riders: testArray,
+        title: 'All Riders',
+        riders: riders,
     });
 };
 
@@ -24,68 +14,106 @@ function getNewRiderForm(req, res) {
     });
 };
 
-function postNewRider(req, res) {
-    const { riderName } = req.body;
-    const id = testArray.length + 1;
-    testArray.push({ 
-        id: id,
-        name: riderName, 
-    });
+// function postNewRider(req, res) {
+//     const { riderName } = req.body;
+//     const id = testArray.length + 1;
+//     testArray.push({ 
+//         id: id,
+//         name: riderName, 
+//     });
 
+//     res.redirect('/rider');
+// };
+
+// function getUpdateRiderForm(req, res) {
+//     const id = Number(req.params.id);
+//     const rider = testArray.find((rider) => rider.id === id);
+//     res.render('updateRiderForm', {
+//         title: 'Update Rider',
+//         rider: rider,
+//     });
+// };
+
+// function postUpdatedRider(req, res) {
+//     const { riderName } = req.body;
+//     const id = Number(req.params.id);
+//     const riderId = testArray.findIndex((rider) => rider.id === id);
+//     if (riderId < 0) {
+//         return;
+//     };
+
+//     testArray[riderId] = {
+//         id: id,
+//         name: riderName,           
+//     };
+
+//     res.redirect('/rider');
+// };
+
+// function getSinglerider(req, res) {
+//     const id = Number(req.params.id);
+//     const rider = testArray.find((rider) => rider.id === id);
+//     res.render('riderData', {
+//         title: 'Rider Data',
+//         rider: rider,
+//     });
+// };
+
+// function deleteSinglerider(req, res) {
+//     const id = Number(req.params.id);
+//     const riderId = testArray.findIndex((rider) => rider.id === id);
+//     if (riderId < 0) {
+//         return;
+//     };
+
+//     testArray.splice(riderId, 1);
+//     res.redirect('/rider');
+// };
+
+async function postNewRider(req, res) {
+    const { riderName } = req.body;
+    await db.postNewRider(riderName);
     res.redirect('/rider');
 };
 
-function getUpdateRiderForm(req, res) {
+async function getUpdateRiderForm(req, res) {
     const id = Number(req.params.id);
-    const rider = testArray.find((rider) => rider.id === id);
+    const rider = await db.findRiderById(id);
     res.render('updateRiderForm', {
         title: 'Update Rider',
         rider: rider,
     });
 };
 
-function postUpdatedRider(req, res) {
+async function postUpdatedRider(req, res) {
     const { riderName } = req.body;
     const id = Number(req.params.id);
-    const riderId = testArray.findIndex((rider) => rider.id === id);
-    if (riderId < 0) {
-        return;
-    };
-
-    testArray[riderId] = {
-        id: id,
-        name: riderName,           
-    };
-
+    console.log()
+    await db.updateExistingRider(riderName, id)
     res.redirect('/rider');
 };
 
-function getSinglerider(req, res) {
+async function getSingleRider(req, res) {
     const id = Number(req.params.id);
-    const rider = testArray.find((rider) => rider.id === id);
+    const rider = await db.findRiderById(id);
     res.render('riderData', {
         title: 'Rider Data',
         rider: rider,
     });
 };
 
-function deleteSinglerider(req, res) {
+async function deleteSingleRider(req, res) {
     const id = Number(req.params.id);
-    const riderId = testArray.findIndex((rider) => rider.id === id);
-    if (riderId < 0) {
-        return;
-    };
-
-    testArray.splice(riderId, 1);
+    await db.deleteRiderById(id);
     res.redirect('/rider');
 };
 
 module.exports = {
-    getRiderPage,
+    getAllRiders,
     getNewRiderForm,
     postNewRider,
     getUpdateRiderForm,
     postUpdatedRider,
-    getSinglerider,
-    deleteSinglerider,
+    getSingleRider,
+    deleteSingleRider,
 };

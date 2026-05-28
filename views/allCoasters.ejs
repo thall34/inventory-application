@@ -5,7 +5,7 @@
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
         <main> 
-            <% if (!coasters) { %>
+            <% if (!coasters || coasters.length === 0) { %>
                 <p>No coasters logged yet</p>
             <% } else { %>
                 <ul>
@@ -15,13 +15,13 @@
                         <li>Speed: <%= coaster.speed %>mph</li>
                         <li>Height: <%= coaster.height %>ft</li>
                         <li>Length: <%= coaster.length %>ft</li>
-                        <a href="/coaster/<%= coaster.id %>">
+                        <a href="/coaster/<%= coaster.coaster_id %>">
                             <button>View More Info</button>
                         </a>
-                        <a href="/coaster/update/<%= coaster.id %>">
+                        <a href="/coaster/update/<%= coaster.coaster_id %>">
                             <button>Update Coaster</button>
                         </a>
-                        <a href="/coaster/delete/<%= coaster.id %>">
+                        <a href="/coaster/delete/<%= coaster.coaster_id %>">
                             <button>Delete Coaster</button>
                         </a>
                     <% }); %>

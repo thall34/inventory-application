@@ -5,19 +5,19 @@
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
         <main> 
-            <% if (!riders) { %>
+            <% if (!riders || riders.length === 0) { %>
                 <p>No riders logged yet</p>
             <% } else { %>
                 <ul>
                     <% riders.map((rider) => { %>
                         <h2><%= rider.name %></h2>
-                        <a href="/rider/<%= rider.id %>">
+                        <a href="/rider/<%= rider.rider_id %>">
                             <button>View More Info</button>
                         </a>
-                        <a href="/rider/update/<%= rider.id %>">
+                        <a href="/rider/update/<%= rider.rider_id %>">
                             <button>Update Rider</button>
                         </a>
-                        <a href="/rider/delete/<%= rider.id %>">
+                        <a href="/rider/delete/<%= rider.rider_id %>">
                             <button>Delete rider</button>
                         </a>
                     <% }); %>

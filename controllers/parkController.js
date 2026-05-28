@@ -1,18 +1,10 @@
-const testArray = [
-    {
-        id: 1,
-        name: 'Canada\'s Wonderland',   
-    },
-    {
-        id: 2,
-        name: 'Cedar Point',   
-    },
-];
+const db = require('../db/queries');
 
-function getParkPage(req, res) {
+async function getAllParks(req, res) {
+    const parks = await db.getAllParks();
     res.render('allParks', {
-        title: 'Park Info',
-        parks: testArray,
+        title: 'All Parks',
+        parks: parks,
     });
 };
 
@@ -22,64 +14,45 @@ function getNewParkForm(req, res) {
     });
 };
 
-function postNewPark(req, res) {
+async function postNewPark(req, res) {
     const { parkName } = req.body;
-    const id = testArray.length + 1;
-    testArray.push({ 
-        id: id,
-        name: parkName, 
-    });
-
+    await db.postNewPark(parkName);
     res.redirect('/park');
 };
 
-function getUpdateParkForm(req, res) {
+async function getUpdateParkForm(req, res) {
     const id = Number(req.params.id);
-    const park = testArray.find((park) => park.id === id);
+    const park = await db.findParkById(id);
     res.render('updateParkForm', {
         title: 'Update Park',
         park: park,
     });
 };
 
-function postUpdatedPark(req, res) {
+async function postUpdatedPark(req, res) {
     const { parkName } = req.body;
     const id = Number(req.params.id);
-    const parkId = testArray.findIndex((park) => park.id === id);
-    if (parkId < 0) {
-        return;
-    };
-
-    testArray[parkId] = {
-        id: id,
-        name: parkName,           
-    };
-
+    await db.updateExistingPark(parkName, id)
     res.redirect('/park');
 };
 
-function getSinglePark(req, res) {
+async function getSinglePark(req, res) {
     const id = Number(req.params.id);
-    const park = testArray.find((park) => park.id === id);
+    const park = await db.findParkById(id);
     res.render('parkData', {
         title: 'Park Data',
         park: park,
     });
 };
 
-function deleteSinglePark(req, res) {
+async function deleteSinglePark(req, res) {
     const id = Number(req.params.id);
-    const parkId = testArray.findIndex((park) => park.id === id);
-    if (parkId < 0) {
-        return;
-    };
-
-    testArray.splice(parkId, 1);
+    await db.deleteParkById(id);
     res.redirect('/park');
 };
 
 module.exports = {
-    getParkPage,
+    getAllParks,
     getNewParkForm,
     postNewPark,
     getUpdateParkForm,
