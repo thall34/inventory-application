@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title><%= title %></title>
+    </head>
+    <body>
+        <%- include('./partials/header.ejs', { title: title }) %>
+        <main> 
+            <% if (!riders) { %>
+                <p>No riders logged yet</p>
+            <% } else { %>
+                <ul>
+                    <% riders.map((rider) => { %>
+                        <h2><%= rider.name %></h2>
+                        <a href="/rider/<%= rider.id %>">
+                            <button>View More Info</button>
+                        </a>
+                        <a href="/rider/update/<%= rider.id %>">
+                            <button>Update Rider</button>
+                        </a>
+                        <a href="/rider/delete/<%= rider.id %>">
+                            <button>Delete rider</button>
+                        </a>
+                    <% }); %>
+                </ul>
+            <% } %>
+            <a href="/rider/new">
+                <button>New Rider</button>
+            </a>
+        </main>
+        <%- include('./partials/footer.ejs') %>
+    </body>
+</html>

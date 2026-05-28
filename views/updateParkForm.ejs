@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title><%= title %></title>
+    </head>
+    <body>
+        <%- include('./partials/header.ejs', { title: title }) %>
+        <main> 
+            <form action="<%= park.id %>" method="POST">
+                <h2><%= title %></h2>
+                <label for="parkName">Name: </label>
+                <input type="text" name="parkName" id="parkName" value="<%= park.name %>" required>
+                <button type="submit">Submit</button>
+            </form>
+        </main>
+        <%- include('./partials/footer.ejs') %>
+    </body>
+</html>

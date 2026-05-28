@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title><%= title %></title>
+    </head>
+    <body>
+        <%- include('./partials/header.ejs', { title: title }) %>
+        <main> 
+            <h2><%= rider.name %></h2>
+            <a href="/rider/update/<%= rider.id %>">
+                <button>Update Rider</button>
+            </a>
+        </main>
+        <%- include('./partials/footer.ejs') %>
+    </body>
+</html>

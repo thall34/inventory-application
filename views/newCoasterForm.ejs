@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title><%= title %></title>
+    </head>
+    <body>
+        <%- include('./partials/header.ejs', { title: title }) %>
+        <main> 
+            <form action="new" method="POST">
+                <h2>New Coaster</h2>
+                <label for="coasterName">Name: </label>
+                <input type="text" name="coasterName" id="coasterName" required>
+                <label for="coasterInversions">Inversions: </label>
+                <input type="number" name="coasterInversions" id="coasterInversions" min="0" required>
+                <label for="coasterSpeed">Speed(mph): </label>
+                <input type="number" name="coasterSpeed" id="coasterSpeed" min="0" required>
+                <label for="coasterHeight">Height(ft): </label>
+                <input type="number" name="coasterHeight" id="coasterHeight" min="0" required>
+                <label for="coasterLength">Length(ft): </label>
+                <input type="number" name="coasterLength" id="coasterLength" min="0" required>
+                <button type="submit">Submit</button>
+            </form>
+        </main>
+        <%- include('./partials/footer.ejs') %>
+    </body>
+</html>

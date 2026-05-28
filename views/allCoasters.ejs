@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title><%= title %></title>
+    </head>
+    <body>
+        <%- include('./partials/header.ejs', { title: title }) %>
+        <main> 
+            <% if (!coasters) { %>
+                <p>No coasters logged yet</p>
+            <% } else { %>
+                <ul>
+                    <% coasters.map((coaster) => { %>
+                        <h2><%= coaster.name %></h2>
+                        <li>Inversions: <%= coaster.inversions %></li>
+                        <li>Speed: <%= coaster.speed %>mph</li>
+                        <li>Height: <%= coaster.height %>ft</li>
+                        <li>Length: <%= coaster.length %>ft</li>
+                        <a href="/coaster/<%= coaster.id %>">
+                            <button>View More Info</button>
+                        </a>
+                        <a href="/coaster/update/<%= coaster.id %>">
+                            <button>Update Coaster</button>
+                        </a>
+                        <a href="/coaster/delete/<%= coaster.id %>">
+                            <button>Delete Coaster</button>
+                        </a>
+                    <% }); %>
+                </ul>
+            <% } %>
+            <a href="/coaster/new">
+                <button>New Coaster</button> 
+            </a>
+        </main>
+        <%- include('./partials/footer.ejs') %>
+    </body>
+</html>
