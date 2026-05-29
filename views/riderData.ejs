@@ -6,8 +6,21 @@
         <%- include('./partials/header.ejs', { title: title }) %>
         <main> 
             <h2><%= rider.name %></h2>
+            <h3>Coasters (<%= rider.coasters.length %>):</h3>
+            <% if (rider.coasters.length > 0) { %>
+                <ul>
+                    <% rider.coasters.forEach((coaster) => { %>
+                        <li><%= coaster %></li>
+                    <% }) %>
+                </ul>
+            <% } else { %>
+                <p>No coasters logged yet</p>
+            <% } %>
             <a href="/rider/update/<%= rider.rider_id %>">
                 <button>Update Rider</button>
+            </a>
+            <a href="/rider/addCoaster/<%= rider.rider_id %>">
+                <button>Add Coaster to Rider</button>
             </a>
         </main>
         <%- include('./partials/footer.ejs') %>

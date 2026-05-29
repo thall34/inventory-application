@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title><%= title %></title>
+    </head>
+    <body>
+        <%- include('./partials/header.ejs', { title: title }) %>
+        <main> 
+            <form action="<%= coaster.coaster_id %>" method="POST">
+                <h2>Add <%= coaster.name %> to Rider</h2>
+                <label for="riderName">Name: </label>
+                <input type="text" name="riderName" id="riderName" required>
+                <button type="submit">Submit</button>
+            </form>
+        </main>
+        <%- include('./partials/footer.ejs') %>
+    </body>
+</html>

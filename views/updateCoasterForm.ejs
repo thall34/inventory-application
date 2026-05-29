@@ -9,6 +9,8 @@
                 <h2><%= title %></h2>
                 <label for="coasterName">Name: </label>
                 <input type="text" name="coasterName" id="coasterName" value="<%= coaster.name %>" required>
+                <label for="parkName">Park name: </label>
+                <input type="text" name="parkName" id="parkName" value="<%= coaster.park_name %>">
                 <label for="coasterInversions">Inversions: </label>
                 <input type="number" name="coasterInversions" id="coasterInversions" min="0" value="<%= coaster.inversions %>" required>
                 <label for="coasterSpeed">Speed(mph): </label>

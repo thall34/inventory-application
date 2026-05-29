@@ -11,9 +11,13 @@
                 <li>Speed: <%= coaster.speed %>mph</li>
                 <li>Height: <%= coaster.height %>ft</li>
                 <li>Length: <%= coaster.length %>ft</li>
+                <li>Park: <%= coaster.park_name %></li>
                 <a href="/coaster/update/<%= coaster.coaster_id %>">
                     <button>Update Coaster</button>
                 </a>
+                <a href="/coaster/addToRider/<%= coaster.coaster_id %>">
+                <button>Add Coaster to Rider</button>
+            </a>
             </ul>
         </main>
         <%- include('./partials/footer.ejs') %>

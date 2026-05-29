@@ -1,4 +1,4 @@
-const db = require('../db/queries');
+const db = require('../db/riderQueries');
 
 async function getAllRiders(req, res) {
     const riders = await db.getAllRiders();
@@ -14,62 +14,6 @@ function getNewRiderForm(req, res) {
     });
 };
 
-// function postNewRider(req, res) {
-//     const { riderName } = req.body;
-//     const id = testArray.length + 1;
-//     testArray.push({ 
-//         id: id,
-//         name: riderName, 
-//     });
-
-//     res.redirect('/rider');
-// };
-
-// function getUpdateRiderForm(req, res) {
-//     const id = Number(req.params.id);
-//     const rider = testArray.find((rider) => rider.id === id);
-//     res.render('updateRiderForm', {
-//         title: 'Update Rider',
-//         rider: rider,
-//     });
-// };
-
-// function postUpdatedRider(req, res) {
-//     const { riderName } = req.body;
-//     const id = Number(req.params.id);
-//     const riderId = testArray.findIndex((rider) => rider.id === id);
-//     if (riderId < 0) {
-//         return;
-//     };
-
-//     testArray[riderId] = {
-//         id: id,
-//         name: riderName,           
-//     };
-
-//     res.redirect('/rider');
-// };
-
-// function getSinglerider(req, res) {
-//     const id = Number(req.params.id);
-//     const rider = testArray.find((rider) => rider.id === id);
-//     res.render('riderData', {
-//         title: 'Rider Data',
-//         rider: rider,
-//     });
-// };
-
-// function deleteSinglerider(req, res) {
-//     const id = Number(req.params.id);
-//     const riderId = testArray.findIndex((rider) => rider.id === id);
-//     if (riderId < 0) {
-//         return;
-//     };
-
-//     testArray.splice(riderId, 1);
-//     res.redirect('/rider');
-// };
-
 async function postNewRider(req, res) {
     const { riderName } = req.body;
     await db.postNewRider(riderName);
@@ -78,7 +22,17 @@ async function postNewRider(req, res) {
 
 async function getUpdateRiderForm(req, res) {
     const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        return res.status(400).send('Invalid ID');
+    };
+    
     const rider = await db.findRiderById(id);
+
+    if (!rider) {
+        return res.status(404).render('404');
+    };
+
     res.render('updateRiderForm', {
         title: 'Update Rider',
         rider: rider,
@@ -88,14 +42,28 @@ async function getUpdateRiderForm(req, res) {
 async function postUpdatedRider(req, res) {
     const { riderName } = req.body;
     const id = Number(req.params.id);
-    console.log()
+
+    if (Number.isNaN(id)) {
+        return res.status(400).send('Invalid ID');
+    };
+
     await db.updateExistingRider(riderName, id)
     res.redirect('/rider');
 };
 
 async function getSingleRider(req, res) {
     const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        return res.status(400).send('Invalid ID');
+    };
+
     const rider = await db.findRiderById(id);
+
+    if (!rider) {
+        return res.status(404).render('404');
+    };
+
     res.render('riderData', {
         title: 'Rider Data',
         rider: rider,
@@ -104,8 +72,50 @@ async function getSingleRider(req, res) {
 
 async function deleteSingleRider(req, res) {
     const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        return res.status(400).send('Invalid ID');
+    };
+
     await db.deleteRiderById(id);
     res.redirect('/rider');
+};
+
+async function getAddCoasterForm(req, res) {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        return res.status(400).send('Invalid ID');
+    };
+    
+    const rider = await db.findRiderById(id);
+
+    if (!rider) {
+        return res.status(404).render('404');
+    };
+
+    res.render('addCoasterToRiderForm', {
+        title: 'Add Coaster to Rider',
+        rider: rider,
+    });
+};
+
+async function postCoasterToRider(req, res) {
+    const riderId = Number(req.params.id);
+
+    if (Number.isNaN(riderId)) {
+        return res.status(400).send('Invalid ID');
+    };
+
+    const { coasterName } = req.body;
+    const coasterId = await db.getCoasterIdFromName(coasterName);
+
+    if (!coasterId) {
+        return res.status(404).send('Coaster not found');
+    };
+
+    await db.addCoasterToRiderById(coasterId, riderId);
+    res.redirect(`/rider/${riderId}`);
 };
 
 module.exports = {
@@ -116,4 +126,6 @@ module.exports = {
     postUpdatedRider,
     getSingleRider,
     deleteSingleRider,
+    postCoasterToRider,
+    getAddCoasterForm,
 };

@@ -3,7 +3,9 @@ const { Client } = require("pg");
 const SQL = `
 CREATE TABLE IF NOT EXISTS parks (
   park_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  name VARCHAR(50)
+  name VARCHAR(50),
+
+  CONSTRAINT parks_name_key UNIQUE (name)
 );
 
 CREATE TABLE IF NOT EXISTS coasters (
@@ -14,12 +16,16 @@ CREATE TABLE IF NOT EXISTS coasters (
   speed SMALLINT,
   height SMALLINT,
   length SMALLINT,
-  FOREIGN KEY (park_id) REFERENCES parks(park_id) ON DELETE CASCADE
+  FOREIGN KEY (park_id) REFERENCES parks(park_id) ON DELETE CASCADE,
+
+  CONSTRAINT coasters_name_park_key UNIQUE (name, park_id)
 );
 
 CREATE TABLE IF NOT EXISTS riders (
 rider_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  name VARCHAR(50)
+  name VARCHAR(50),
+
+  CONSTRAINT riders_name_key UNIQUE (name)
 );
 
 CREATE TABLE IF NOT EXISTS riders_coasters (
@@ -27,6 +33,8 @@ CREATE TABLE IF NOT EXISTS riders_coasters (
   coaster_id INTEGER,
 
   PRIMARY KEY (rider_id, coaster_id),
+
+  CONSTRAINT riders_coasters_unique UNIQUE (rider_id, coaster_id),
 
   CONSTRAINT fk_rider
     FOREIGN KEY (rider_id)
@@ -43,7 +51,7 @@ CREATE TABLE IF NOT EXISTS riders_coasters (
 async function main() {
   console.log("seeding...");
   const client = new Client({
-    connectionString: `postgresql://${process.env.ROLE_NAME}:${process.env.ROLE_PASSWORD}@localhost:5432/roller_coaster_database`,
+    connectionString: process.env.DATABASE_URL,
   });
   await client.connect();
   await client.query(SQL);

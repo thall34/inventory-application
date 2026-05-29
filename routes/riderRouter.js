@@ -9,5 +9,7 @@ riderRouter.get('/update/:id', riderController.getUpdateRiderForm);
 riderRouter.post('/update/:id', riderController.postUpdatedRider);
 riderRouter.get('/:id', riderController.getSingleRider);
 riderRouter.get('/delete/:id', riderController.deleteSingleRider);
+riderRouter.get('/addCoaster/:id', riderController.getAddCoasterForm);
+riderRouter.post('/addCoaster/:id', riderController.postCoasterToRider);
 
 module.exports = riderRouter;

@@ -1,4 +1,4 @@
-const db = require('../db/queries');
+const db = require('../db/parkQueries');
 
 async function getAllParks(req, res) {
     const parks = await db.getAllParks();
@@ -22,7 +22,17 @@ async function postNewPark(req, res) {
 
 async function getUpdateParkForm(req, res) {
     const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        return res.status(400).send('Invalid ID');
+    };
+
     const park = await db.findParkById(id);
+
+    if (!park) {
+        return res.status(404).render('404');
+    };
+
     res.render('updateParkForm', {
         title: 'Update Park',
         park: park,
@@ -32,13 +42,28 @@ async function getUpdateParkForm(req, res) {
 async function postUpdatedPark(req, res) {
     const { parkName } = req.body;
     const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        return res.status(400).send('Invalid ID');
+    };
+
     await db.updateExistingPark(parkName, id)
     res.redirect('/park');
 };
 
 async function getSinglePark(req, res) {
     const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        return res.status(400).send('Invalid ID');
+    };
+
     const park = await db.findParkById(id);
+
+    if (!park) {
+        return res.status(404).render('404');
+    };
+
     res.render('parkData', {
         title: 'Park Data',
         park: park,
@@ -47,6 +72,11 @@ async function getSinglePark(req, res) {
 
 async function deleteSinglePark(req, res) {
     const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+        return res.status(400).send('Invalid ID');
+    };
+
     await db.deleteParkById(id);
     res.redirect('/park');
 };

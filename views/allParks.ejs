@@ -11,6 +11,16 @@
                 <ul>
                     <% parks.map((park) => { %>
                         <h2><%= park.name %></h2>
+                        <h3>Coasters (<%= park.coasters.length %>): </h3>
+                        <% if (park.coasters.length > 0) { %>
+                            <ul>
+                                <% park.coasters.forEach((coaster) => { %>
+                                    <li><%= coaster %></li>
+                                <% }) %>
+                            </ul>
+                        <% } else { %>
+                            <p>No coasters found</p>
+                        <% } %>
                         <a href="/park/<%= park.park_id %>">
                             <button>View More Info</button>
                         </a>
