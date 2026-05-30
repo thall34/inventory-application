@@ -23,7 +23,7 @@ async function getOrCreateParkId(parkName) {
 };
 
 async function postNewCoaster(name, inversions, speed, height, length, parkName) {
-    const parkId = getOrCreateParkId(parkName);
+    const parkId = await getOrCreateParkId(parkName);
 
     await pool.query(
         `INSERT INTO coasters (name, park_id, inversions, speed, height, length)
@@ -44,7 +44,7 @@ async function getCoasterIdFromName(name) {
 };
 
 async function updateExistingCoaster(name, inversions, speed, height, length, id, parkName) {
-    const parkId = getOrCreateParkId(parkName);
+    const parkId = await getOrCreateParkId(parkName);
 
     await pool.query(
             `UPDATE coasters SET name = $1, park_id = $2, inversions = $3, speed = $4, height = $5, length = $6

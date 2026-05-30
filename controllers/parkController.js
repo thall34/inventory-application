@@ -1,3 +1,4 @@
+const { validationResult, matchedData } = require('express-validator');
 const db = require('../db/parkQueries');
 
 async function getAllParks(req, res) {
@@ -15,7 +16,16 @@ function getNewParkForm(req, res) {
 };
 
 async function postNewPark(req, res) {
-    const { parkName } = req.body;
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+        return res.status(400).render('newParkForm', {
+            title: 'Add New Coaster',
+            errors: errors.array(),
+        });
+    };
+
+    const { parkName } = matchedData(req);
     await db.postNewPark(parkName);
     res.redirect('/park');
 };
@@ -40,12 +50,29 @@ async function getUpdateParkForm(req, res) {
 };
 
 async function postUpdatedPark(req, res) {
-    const { parkName } = req.body;
+    const errors = validationResult(req);
+
     const id = Number(req.params.id);
 
     if (Number.isNaN(id)) {
         return res.status(400).send('Invalid ID');
     };
+
+    if (!errors.isEmpty()) {
+        const park = db.findParkById(id);
+
+        if(!park) {
+            return res.status(404).render('404');
+        };
+
+        return res.status(400).render('updateParkForm', {
+            title: 'Update Park',
+            park: park,
+            errors: errors.array(),
+        });
+    };
+
+    const { parkName } = matchedData(req);
 
     await db.updateExistingPark(parkName, id)
     res.redirect('/park');
