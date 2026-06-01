@@ -2,148 +2,168 @@ const { validationResult, matchedData } = require('express-validator');
 const { getCoasterIdFromName } = require('../db/coasterQueries')
 const db = require('../db/riderQueries');
 
-async function getAllRiders(req, res) {
-    const riders = await db.getAllRiders();
-    res.render('allRiders', {
-        title: 'All Riders',
-        riders: riders,
-    });
-};
-
-function getNewRiderForm(req, res) {
-    res.render('newRiderForm', {
-        title: 'Add New Rider',
-    });
-};
-
-async function postNewRider(req, res) {
-    const errors = validationResult(req);
-    
-    if (!errors.isEmpty()) {
-        return res.status(400).render('newRiderForm', {
-            title: 'Add New Rider',
-            errors: errors.array(),
+async function getAllRiders(req, res, next) {
+    try {
+        const riders = await db.getAllRiders();
+        res.render('allRiders', {
+            title: 'All Riders',
+            riders: riders,
         });
-    };
 
-    const { riderName } = matchedData(req);
-    await db.postNewRider(riderName);
-    res.redirect('/rider');
+    } catch (err) {
+        next(err);
+    };
 };
 
-async function getUpdateRiderForm(req, res) {
-    const id = Number(req.params.id);
+async function getNewRiderForm(req, res, next) {
+    try {
+        res.render('newRiderForm', {
+            title: 'Add New Rider',
+        });
 
-    if (Number.isNaN(id)) {
-        return res.status(400).send('Invalid ID');
+    } catch (err) {
+        next(err);
     };
-    
-    const rider = await db.findRiderById(id);
-
-    if (!rider) {
-        return res.status(404).render('404');
-    };
-
-    res.render('updateRiderForm', {
-        title: 'Update Rider',
-        rider: rider,
-    });
 };
 
-async function postUpdatedRider(req, res) {
-    const errors = validationResult(req);
+async function postNewRider(req, res, next) {
+    try {
+        const errors = validationResult(req);
 
-    const id = Number(req.params.id);
+        if (!errors.isEmpty()) {
+            return res.status(400).render('newRiderForm', {
+                title: 'Add New Rider',
+                errors: errors.array(),
+            });
+        };
 
-    if (Number.isNaN(id)) {
-        return res.status(400).send('Invalid ID');
+        const { riderName } = matchedData(req);
+        await db.postNewRider(riderName);
+        res.redirect('/rider');
+
+    } catch (err) {
+        next(err);
     };
-    
-    if (!errors.isEmpty()) {
+};
+
+async function getUpdateRiderForm(req, res, next) {
+    try {
+        const id = req.validatedId;
+
         const rider = await db.findRiderById(id);
 
-        if(!rider) {
+        if (!rider) {
             return res.status(404).render('404');
         };
 
-        return res.status(400).render('updateRiderForm', {
+        res.render('updateRiderForm', {
             title: 'Update Rider',
             rider: rider,
-            errors: errors.array(),
         });
+
+    } catch (err) {
+        next(err);
     };
-
-    const { riderName } = matchedData(req);
-
-    await db.updateExistingRider(riderName, id)
-    res.redirect('/rider');
 };
 
-async function getSingleRider(req, res) {
-    const id = Number(req.params.id);
+async function postUpdatedRider(req, res, next) {
+    try {
+        const errors = validationResult(req);
+        const id = req.validatedId;
 
-    if (Number.isNaN(id)) {
-        return res.status(400).send('Invalid ID');
+        if (!errors.isEmpty()) {
+            const rider = await db.findRiderById(id);
+
+            if (!rider) {
+                return res.status(404).render('404');
+            };
+
+            return res.status(400).render('updateRiderForm', {
+                title: 'Update Rider',
+                rider: rider,
+                errors: errors.array(),
+            });
+        };
+
+        const { riderName } = matchedData(req);
+
+        await db.updateExistingRider(riderName, id)
+        res.redirect('/rider');
+
+    } catch (err) {
+        next(err);
     };
-
-    const rider = await db.findRiderById(id);
-
-    if (!rider) {
-        return res.status(404).render('404');
-    };
-
-    res.render('riderData', {
-        title: 'Rider Data',
-        rider: rider,
-    });
 };
 
-async function deleteSingleRider(req, res) {
-    const id = Number(req.params.id);
+async function getSingleRider(req, res, next) {
+    try {
+        const id = req.validatedId;
 
-    if (Number.isNaN(id)) {
-        return res.status(400).send('Invalid ID');
+        const rider = await db.findRiderById(id);
+
+        if (!rider) {
+            return res.status(404).render('404');
+        };
+
+        res.render('riderData', {
+            title: 'Rider Data',
+            rider: rider,
+        });
+
+    } catch (err) {
+        next(err);
     };
-
-    await db.deleteRiderById(id);
-    res.redirect('/rider');
 };
 
-async function getAddCoasterForm(req, res) {
-    const id = Number(req.params.id);
+async function deleteSingleRider(req, res, next) {
+    try {
+        const id = req.validatedId;
 
-    if (Number.isNaN(id)) {
-        return res.status(400).send('Invalid ID');
+        await db.deleteRiderById(id);
+        res.redirect('/rider');
+
+    } catch (err) {
+        next(err);
     };
-    
-    const rider = await db.findRiderById(id);
-
-    if (!rider) {
-        return res.status(404).render('404');
-    };
-
-    res.render('addCoasterToRiderForm', {
-        title: 'Add Coaster to Rider',
-        rider: rider,
-    });
 };
 
-async function postCoasterToRider(req, res) {
-    const riderId = Number(req.params.id);
+async function getAddCoasterForm(req, res, next) {
+    try {
+        const id = req.validatedId;
 
-    if (Number.isNaN(riderId)) {
-        return res.status(400).send('Invalid ID');
+        const rider = await db.findRiderById(id);
+
+        if (!rider) {
+            return res.status(404).render('404');
+        };
+
+        res.render('addCoasterToRiderForm', {
+            title: 'Add Coaster to Rider',
+            rider: rider,
+        });
+
+    } catch (err) {
+        next(err);
     };
+};
 
-    const { coasterName } = req.body;
-    const coasterId = await getCoasterIdFromName(coasterName);
+async function postCoasterToRider(req, res, next) {
+    try {
+        const riderId = req.validatedId;
 
-    if (!coasterId) {
-        return res.status(404).send('Coaster not found');
+        const { coasterName } = req.body;
+        const coasterId = await getCoasterIdFromName(coasterName);
+
+        if (!coasterId) {
+            return res.status(404).send('Coaster not found');
+        };
+
+        await db.addCoasterToRiderById(coasterId, riderId);
+        res.redirect(`/rider/${riderId}`);
+
+    } catch (err) {
+        next(err);
     };
-
-    await db.addCoasterToRiderById(coasterId, riderId);
-    res.redirect(`/rider/${riderId}`);
 };
 
 module.exports = {

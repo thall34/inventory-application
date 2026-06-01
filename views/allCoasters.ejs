@@ -11,10 +11,6 @@
                 <ul>
                     <% coasters.map((coaster) => { %>
                         <h2><%= coaster.name %></h2>
-                        <li>Inversions: <%= coaster.inversions %></li>
-                        <li>Speed: <%= coaster.speed %>mph</li>
-                        <li>Height: <%= coaster.height %>ft</li>
-                        <li>Length: <%= coaster.length %>ft</li>
                         <li>Park: <%= coaster.park_name %></li>
                         <a href="/coaster/<%= coaster.coaster_id %>">
                             <button>View More Info</button>

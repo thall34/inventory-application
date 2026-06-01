@@ -1,7 +1,12 @@
-function getHomepage(req, res) {
-    res.render('index', {
-        title: 'Roller Coaster Database'
-    });
+async function getHomepage(req, res, next) {
+    try {
+        res.render('index', {
+            title: 'Roller Coaster Database'
+        });
+
+    } catch (err) {
+        next(err);
+    };
 };
 
 module.exports = {
