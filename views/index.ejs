@@ -1,11 +1,14 @@
 <html>
     <head>
         <title><%= title %></title>
+        <link rel="stylesheet" href="/styles.css">
     </head>
     <body>
         <%- include('./partials/header.ejs', { title: 'Roller Coaster Database Homepage' }) %>
         <main> 
-            <p>Dummy text for now</p>
+            <img src="/images/behemoth.jpg" alt="Behemoth at Canada's Wonderland">
+            <img src="/images/top_thrill2.jpg" alt="Top Thrill Dragster 2 at Cedar Point">
+            <img src="/images/millenium_force.jpg" alt="Millenium Force at Cedar Point">
         </main>
         <%- include('./partials/footer.ejs') %>
     </body>
