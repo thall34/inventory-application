@@ -1,22 +1,26 @@
 <html>
     <head>
         <title><%= title %></title>
-        <link rel="stylesheet" href="/styles.css">
+        <link rel="stylesheet" href="/app.css">
+        <link rel="stylesheet" href="/index.css">
+        <link rel="stylesheet" href="/park.css">
     </head>
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
-        <main> 
-            <h2><%= park.name %></h2>
-            <h3>Coasters (<%= park.coasters.length %>):</h3>
-            <% if (park.coasters.length > 0) { %>
-                <ul>
-                    <% park.coasters.forEach((coaster) => { %>
-                        <li><%= coaster %></li>
-                    <% }) %>
-                </ul>
+        <main>
+            <div class="park-card more-info"> 
+                <h2><%= park.name %></h2>
+                <h3>Coasters (<%= park.coasters.length %>):</h3>
+                <% if (park.coasters.length > 0) { %>
+                    <ul class="coaster-list">
+                        <% park.coasters.forEach((coaster) => { %>
+                            <li><%= coaster %></li>
+                        <% }) %>
+                    </ul>
             <% } else { %>
                 <p>No coasters found</p>
             <% } %>
+            </div>
             <a href="/park/update/<%= park.park_id %>">
                 <button>Update Park</button>
             </a>

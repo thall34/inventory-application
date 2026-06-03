@@ -1,15 +1,18 @@
 <html>
     <head>
         <title><%= title %></title>
-        <link rel="stylesheet" href="/styles.css">
+        <link rel="stylesheet" href="/app.css">
+        <link rel="stylesheet" href="/index.css">
+        <link rel="stylesheet" href="/rider.css">
     </head>
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
-        <%- include('./partials/errors.ejs') %>
+        <%- include('./partials/form_errors.ejs') %>
         <main> 
-            <form action="new" method="POST">
+            <form action="new" method="POST" class="rider-form">
                 <h2>New Rider</h2>
-                <label for="riderName">Name: </label>
+                <p>All fields marked with an <span class="red">*</span> are required</p>
+                <label for="riderName">Name: <span class="red">*</span></label>
                 <input type="text" name="riderName" id="riderName" required>
                 <button type="submit">Submit</button>
             </form>

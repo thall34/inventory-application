@@ -1,14 +1,17 @@
 <html>
     <head>
         <title><%= title %></title>
-        <link rel="stylesheet" href="/styles.css">
+        <link rel="stylesheet" href="/app.css">
+        <link rel="stylesheet" href="/index.css">
+        <link rel="stylesheet" href="/rider.css">
     </head>
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
         <main> 
-            <form action="<%= rider.rider_id %>" method="POST">
+            <form action="<%= rider.rider_id %>" method="POST" class="rider-form">
                 <h2>Add coaster to <%= rider.name %></h2>
-                <label for="coasterName">Name: </label>
+                <p>All fields marked with an <span class="red">*</span> are required</p>
+                <label for="coasterName">Name: <span class="red">*</span></label>
                 <input type="text" name="coasterName" id="coasterName" required>
                 <button type="submit">Submit</button>
             </form>

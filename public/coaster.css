@@ -1,0 +1,43 @@
+main {
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+    gap: 1em;
+}
+
+main > h1 {
+    text-align: center;
+}
+
+.coaster-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.coaster-card {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  padding: 2em;
+  border: 1px solid black;
+}
+
+.more-info {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1em;
+}
+
+.coaster-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+}
+
+.coaster-form > button {
+    margin-top: 1em;
+}

@@ -1,27 +1,31 @@
 <html>
     <head>
         <title><%= title %></title>
-        <link rel="stylesheet" href="/styles.css">
+        <link rel="stylesheet" href="/app.css">
+        <link rel="stylesheet" href="/index.css">
+        <link rel="stylesheet" href="/rider.css">
     </head>
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
         <main> 
             <% if (!riders || riders.length === 0) { %>
-                <p>No riders logged yet</p>
+                <h1>No riders logged yet</h1>
             <% } else { %>
-                <ul>
+                <ul class="rider-list">
                     <% riders.map((rider) => { %>
-                        <h2><%= rider.name %></h2>
-                        <h3>Coasters (<%= rider.coasters.length %>):</h3>
-                        <a href="/rider/<%= rider.rider_id %>">
-                            <button>View More Info</button>
-                        </a>
-                        <a href="/rider/update/<%= rider.rider_id %>">
-                            <button>Update Rider</button>
-                        </a>
-                        <a href="/rider/delete/<%= rider.rider_id %>">
-                            <button>Delete rider</button>
-                        </a>
+                        <div class="rider-card">
+                            <h2><%= rider.name %></h2>
+                            <h3>Coasters (<%= rider.coasters.length %>):</h3>
+                            <a href="/rider/<%= rider.rider_id %>">
+                                <button>View More Info</button>
+                            </a>
+                            <a href="/rider/update/<%= rider.rider_id %>">
+                                <button>Update Rider</button>
+                            </a>
+                            <a href="/rider/delete/<%= rider.rider_id %>">
+                                <button>Delete rider</button>
+                            </a>
+                        </div>
                     <% }); %>
                 </ul>
             <% } %>

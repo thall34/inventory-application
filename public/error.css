@@ -1,0 +1,16 @@
+body {
+    justify-content: start;
+}
+
+header {
+    border: none;
+}
+
+main {
+    border: none;
+}
+
+.error {
+    justify-content: center;
+    align-items: center;
+}

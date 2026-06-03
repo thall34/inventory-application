@@ -1,25 +1,28 @@
 <html>
     <head>
         <title><%= title %></title>
-        <link rel="stylesheet" href="/styles.css">
+        <link rel="stylesheet" href="/app.css">
+        <link rel="stylesheet" href="/index.css">
+        <link rel="stylesheet" href="/coaster.css">
     </head>
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
-        <%- include('./partials/errors.ejs') %>
+        <%- include('./partials/form_errors.ejs') %>
         <main> 
-            <form action="new" method="POST">
+            <form action="new" method="POST" class="coaster-form">
                 <h2>New Coaster</h2>
-                <label for="coasterName">Name: </label>
+                <p>All fields marked with an <span class="red">*</span> are required</p>
+                <label for="coasterName">Name: <span class="red">*</span></label>
                 <input type="text" name="coasterName" id="coasterName" required>
                 <label for="parkName">Park name: </label>
                 <input type="text" name="parkName" id="parkName">
-                <label for="coasterInversions">Inversions: </label>
+                <label for="coasterInversions">Inversions: <span class="red">*</span></label>
                 <input type="number" name="coasterInversions" id="coasterInversions" min="0" required>
-                <label for="coasterSpeed">Speed(mph): </label>
+                <label for="coasterSpeed">Speed(mph): <span class="red">*</span></label>
                 <input type="number" name="coasterSpeed" id="coasterSpeed" min="0" required>
-                <label for="coasterHeight">Height(ft): </label>
+                <label for="coasterHeight">Height(ft): <span class="red">*</span></label>
                 <input type="number" name="coasterHeight" id="coasterHeight" min="0" required>
-                <label for="coasterLength">Length(ft): </label>
+                <label for="coasterLength">Length(ft): <span class="red">*</span></label>
                 <input type="number" name="coasterLength" id="coasterLength" min="0" required>
                 <button type="submit">Submit</button>
             </form>

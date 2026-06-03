@@ -40,5 +40,8 @@ Before installing, ensure you have the following software installed:
 
 ## Future improvements
 
+Order coasters under park and under rider by name when viewing more info
+Update getCoasterIdFromName to include parkName as a second argument in case there are multiple of the same coaster
+Add more colour to website using CSS
 Implement an update and delete button next to each coaster in the individual park view
 Implement a remove coaster from rider button

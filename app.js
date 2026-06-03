@@ -20,9 +20,9 @@ app.use('/coaster', coasterRouter);
 app.use('/park', parkRouter);
 app.use('/rider', riderRouter);
 app.get('/{*splat}', (req, res) => {
-  res.status(404).render('404', {
-    title: '404 - Page Not Found',
-    message: 'The page you are trying to access does not exist',
+  res.status(404).render('errors', {
+    title: 'Error 404 - Page Not Found',
+    message: 'Error 404 - Page does not exist in the database',
   });
 });
 app.use(errorHandler);
