@@ -1,4 +1,4 @@
-const pool = require('./pool');
+const pool = require('../config/pool');
 
 // Selects all coasters from the coasters table and the park associated with each coaster, and returns them ordered by coaster name
 // If multiple coasters have the same name, orders those by park name associated with said coasters
@@ -10,6 +10,7 @@ async function getAllCoasters() {
         ON coasters.park_id = parks.park_id
         ORDER BY coasters.name, park_name`
     );
+
     return rows;
 };
 
@@ -30,9 +31,7 @@ async function getOrCreateParkId(parkName) {
 
 // Adds new coaster entry into the coasters table
 // Uses the helper function getOrCreateParkId (see above)
-async function postNewCoaster(name, inversions, speed, height, length, parkName) {
-    const parkId = await getOrCreateParkId(parkName);
-
+async function postNewCoaster(name, inversions, speed, height, length, parkName, parkId) {
     await pool.query(
         `INSERT INTO coasters (name, park_id, inversions, speed, height, length)
         VALUES ($1, $2, $3, $4, $5, $6)`, [name, parkId, inversions, speed, height, length]
@@ -91,6 +90,7 @@ async function deleteCoasterById(id) {
 module.exports = {
     getAllCoasters,
     postNewCoaster,
+    getOrCreateParkId,
     getCoasterIdFromName,
     findCoasterById,
     updateExistingCoaster,

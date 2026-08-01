@@ -9,11 +9,11 @@
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
         <main> 
-            <% if (!coasters || coasters.length === 0) { %>
+            <% if (!data || data.length === 0) { %>
                 <h1>No coasters logged yet</h1>
             <% } else { %>
                     <ul class="coaster-list">
-                        <% coasters.map((coaster) => { %>
+                        <% data.map((coaster) => { %>
                             <div class="coaster-card">
                                 <h2><%= coaster.name %></h2>
                                 <li>Park: <%= coaster.park_name %></li>

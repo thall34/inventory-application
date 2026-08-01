@@ -8,7 +8,7 @@ const indexRouter = require('./routes/indexRouter');
 const coasterRouter = require('./routes/coasterRouter');
 const parkRouter = require('./routes/parkRouter');
 const riderRouter = require('./routes/riderRouter');
-const errorHandler = require('./middleware/errorHandler');
+const errorHandler = require('./utils/errorHandler');
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

@@ -8,11 +8,11 @@
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
         <main> 
-            <% if (!riders || riders.length === 0) { %>
+            <% if (!data || data.length === 0) { %>
                 <h1>No riders logged yet</h1>
             <% } else { %>
                 <ul class="rider-list">
-                    <% riders.map((rider) => { %>
+                    <% data.map((rider) => { %>
                         <div class="rider-card">
                             <h2><%= rider.name %></h2>
                             <h3>Coasters (<%= rider.coasters.length %>):</h3>

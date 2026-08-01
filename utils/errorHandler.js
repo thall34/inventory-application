@@ -11,8 +11,8 @@ function errorHandler(err, req, res, next) {
 
     // fallback to catch all errors
     return res.status(500).render('errors', {
-            title: 'Error 500 - Database error occured',
-            message: 'Error - 500: Database error occured',
+            title: 'Error 500 - Server error occured',
+            message: 'Error - 500: Server error occured',
     });
 };
 

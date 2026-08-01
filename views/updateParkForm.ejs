@@ -9,11 +9,11 @@
         <%- include('./partials/header.ejs', { title: title }) %>
         <%- include('./partials/form_errors.ejs') %>
         <main> 
-            <form action="<%= park.park_id %>" method="POST" class="park-form">
+            <form action="<%= data.park_id %>" method="POST" class="park-form">
                 <h2><%= title %></h2>
                 <p>All fields marked with a <span class="red">*</span> are required</p>
                 <label for="parkName">Name: <span class="red">*</span></label>
-                <input type="text" name="parkName" id="parkName" value="<%= park.name %>" required>
+                <input type="text" name="parkName" id="parkName" value="<%= data.name %>" required>
                 <button type="submit">Submit</button>
             </form>
         </main>

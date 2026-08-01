@@ -1,16 +1,14 @@
 const { validationResult, matchedData } = require('express-validator');
-const { getCoasterIdFromName } = require('../db/coasterQueries')
-const db = require('../db/riderQueries');
+const { getCoasterIdFromName } = require('../models/coasterModels')
+const db = require('../models/riderModels');
+const success = require('../utils/success');
+const failure = require('../utils/failure');
 
 // Retrieves all riders from database and displays it on riders main page
 async function getAllRiders(req, res, next) {
     try {
         const riders = await db.getAllRiders();
-        res.render('allRiders', {
-            title: 'All Riders',
-            riders: riders,
-        });
-
+        return success(res, 200, 'allRiders', 'All Riders', riders);
     } catch (err) {
         next(err);
     };
@@ -19,10 +17,7 @@ async function getAllRiders(req, res, next) {
 // Retrieves the add new rider form
 async function getNewRiderForm(req, res, next) {
     try {
-        res.render('newRiderForm', {
-            title: 'Add New Rider',
-        });
-
+        return success(res, 200, 'newRiderForm', 'Add New Rider');
     } catch (err) {
         next(err);
     };
@@ -33,22 +28,20 @@ async function postNewRider(req, res, next) {
     try {
         // Gets results from rider form validation in middleware/validateRider.js
         const errors = validationResult(req);
-
         // If there are any errors, redisplay the form page with errors at the top
         if (!errors.isEmpty()) {
-            return res.status(400).render('newRiderForm', {
-                title: 'Add New Rider',
-                errors: errors.array(),
-            });
+            return failure(res, 400, 'newRiderForm', 'Add New Rider', errors.array());
         };
-
         // Receive sanitized and verified information and use it to create new rider entry in database
         const { riderName } = matchedData(req);
         await db.postNewRider(riderName);
         // Returns to main rider page after submitting
-        res.redirect('/rider');
-
+        return success(res, 201, '/rider');
     } catch (err) {
+        if (err.code === '23505') {
+            return failure(res, 409, 'errors', 'Error 409 - Park already exists')
+        };
+
         next(err);
     };
 };
@@ -58,65 +51,48 @@ async function getUpdateRiderForm(req, res, next) {
     try {
         // Receives validated ID from middleware/validateId.js
         const id = req.validatedId;
-
         // Finds matching rider in the database by ID
         const rider = await db.findRiderById(id);
-
         // If ID doesn't match any riders, redirects to the error page
         if (!rider) {
-            return res.status(403).render('errors', {
-                title: 'Error 403 - Rider not found',
-                message: 'Error 402 - Rider not found in database',
-            });
+            return failure(res, 401, 'errors', 'Error 401 - Rider not found');
         };
-
         // Once rider has been found, renders the update form with the rider details
-        res.render('updateRiderForm', {
-            title: 'Update Rider',
-            rider: rider,
-        });
-
+        return success(res, 200, 'updateRiderForm', `Update ${rider.name}`, rider);
     } catch (err) {
         next(err);
     };
 };
 
 // Adds updated rider data to the database based on the id from the previous form retrieval
-async function postUpdatedRider(req, res, next) {
+async function putUpdatedRider(req, res, next) {
     try {
         // Gets results from rider form validation in middleware/validateRider.js
         const errors = validationResult(req);
         // Receives validated ID from middleware/validateId.js
         const id = req.validatedId;
-
+        // Finds matching rider in the database by ID
+        const rider = await db.findRiderById(id);
+        // If ID doesn't match any riders, redirects to the error page
+        if (!rider) {
+            return failure(res, 401, 'errors', 'Error 401 - Rider not found');
+        };
         // If there are any errors, redisplay the form page with errors at the top
         if (!errors.isEmpty()) {
-            // Finds matching rider in the database by ID
-            const rider = await db.findRiderById(id);
-
-            // If ID doesn't match any riders, redirects to the error page
-            if (!rider) {
-                return res.status(403).render('errors', {
-                    title: 'Error 403 - Rider not found',
-                    message: 'Error 402 - Rider not found in database',
-                });
-            };
-
             // If errors were found in middleware/validateRider.js, it will redisplay the page with the errors at the top
-            return res.status(400).render('updateRiderForm', {
-                title: 'Update Rider',
-                rider: rider,
-                errors: errors.array(),
-            });
+            return failure(res, 400, 'updateRiderForm', `Update ${rider.name}`, errors.array(), rider);
         };
 
         // Receive sanitized and verified information and use it to update rider entry in database
         const { riderName } = matchedData(req);
         await db.updateExistingRider(riderName, id);
         // Returns to main rider page after submitting
-        res.redirect('/rider');
-
+        return success(res, 200, '/rider');
     } catch (err) {
+        if (err.code === '23505') {
+            return failure(res, 409, 'errors', 'Error 409 - Park already exists')
+        };
+
         next(err);
     };
 };
@@ -126,24 +102,14 @@ async function getSingleRider(req, res, next) {
     try {
         // Receives validated ID from middleware/validateId.js
         const id = req.validatedId;
-
         // Finds matching rider in the database by ID
         const rider = await db.findRiderById(id);
-
         // If ID doesn't match any riders, redirects to the error page
         if (!rider) {
-            return res.status(403).render('errors', {
-                title: 'Error 403 - Rider not found',
-                message: 'Error 402 - Rider not found in database',
-            });
+            return failure(res, 401, 'errors', 'Error 401 - Rider not found');
         };
-
         // Renders rider data page with the selected rider ID
-        res.render('riderData', {
-            title: 'Rider Data',
-            rider: rider,
-        });
-
+        return success(res, 200, 'riderData', rider.name, rider);
     } catch (err) {
         next(err);
     };
@@ -154,12 +120,16 @@ async function deleteSingleRider(req, res, next) {
     try {
         // Receives validated ID from middleware/validateId.js
         const id = req.validatedId;
-
+        // Finds matching rider in the database by ID
+        const rider = await db.findRiderById(id);
+        // If ID doesn't match any riders, redirects to the error page
+        if (!rider) {
+            return failure(res, 401, 'errors', 'Error 401 - Rider not found');
+        };
         // Deletes matching rider in the database by ID
         await db.deleteRiderById(id);
         // Returns to main rider page after deleting
-        res.redirect('/rider');
-
+        return success(res, 204, '/rider');
     } catch (err) {
         next(err);
     };
@@ -170,24 +140,14 @@ async function getAddCoasterForm(req, res, next) {
     try {
         // Receives validated ID from middleware/validateId.js
         const id = req.validatedId;
-
         // Finds matching rider in the database by ID
         const rider = await db.findRiderById(id);
-
         // If ID doesn't match any riders, redirects to the error page
         if (!rider) {
-            return res.status(403).render('errors', {
-                title: 'Error 403 - Rider not found',
-                message: 'Error 403 - Rider not found in database',
-            });
+            return (res, 401, 'errors', 'Error 401 - Rider not found');
         };
-
         // Renders add coaster to rider form
-        res.render('addCoasterToRiderForm', {
-            title: 'Add Coaster to Rider',
-            rider: rider,
-        });
-
+        return success(res, 200, 'addCoasterToRiderForm', 'Add Coaster to Rider', rider);
     } catch (err) {
         next(err);
     };
@@ -199,26 +159,23 @@ async function postCoasterToRider(req, res, next) {
     try {
         // Receives validated ID from middleware/validateId.js
         const riderId = req.validatedId;
-
         // Receives coasterName from the post method of the add rider from coaster form
         const { coasterName } = req.body;
         // Finds matching coaster in the database by ID
         const coasterId = await getCoasterIdFromName(coasterName);
-
         // If coasterId doesn't match any riders, redirects to the error page
         if (!coasterId) {
-            return res.status(401).render('errors', {
-                title: 'Error 401 - Coaster not found',
-                message: 'Error 401 - Coaster not found in database',
-            });
+            return failure(res, 401, 'errors', 'Error 401 - Coaster not found');
         };
-
         // Adds link through riders_coasters join table to connect the coaster ID with the rider ID
         await db.addCoasterToRiderById(coasterId, riderId);
         // Redirects back to the rider that the add coaster to rider form was initialized from
-        res.redirect(`/rider/${riderId}`);
-
+        return success(res, 201, `/rider/${riderId}`);
     } catch (err) {
+        if (err.code === '23505') {
+            return failure(res, 409, 'errors', 'Error 409 - Coaster already in rider list')
+        };
+
         next(err);
     };
 };
@@ -228,7 +185,7 @@ module.exports = {
     getNewRiderForm,
     postNewRider,
     getUpdateRiderForm,
-    postUpdatedRider,
+    putUpdatedRider,
     getSingleRider,
     deleteSingleRider,
     postCoasterToRider,

@@ -11,7 +11,7 @@ const validateCoaster = [
     .isLength({ max: 100 }).withMessage('Park name too long'),
     body('coasterInversions')
     .trim()
-    .notEmpty().withMessage('inversion count is required')
+    .notEmpty().withMessage('Inversion count is required')
     .isInt({ min: 0 }).withMessage('Must be a number greater than or equal to 0')
     .toInt(),
     body('coasterSpeed')

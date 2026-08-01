@@ -9,11 +9,11 @@
         <%- include('./partials/header.ejs', { title: title }) %>
         <main>
             <div class="park-card more-info"> 
-                <h2><%= park.name %></h2>
-                <h3>Coasters (<%= park.coasters.length %>):</h3>
-                <% if (park.coasters.length > 0) { %>
+                <h2><%= data.name %></h2>
+                <h3>Coasters (<%= data.coasters.length %>):</h3>
+                <% if (data.coasters.length > 0) { %>
                     <ul class="coaster-list">
-                        <% park.coasters.forEach((coaster) => { %>
+                        <% data.coasters.forEach((coaster) => { %>
                             <li><%= coaster %></li>
                         <% }) %>
                     </ul>
@@ -21,7 +21,7 @@
                 <p>No coasters found</p>
             <% } %>
             </div>
-            <a href="/park/update/<%= park.park_id %>">
+            <a href="/park/update/<%= data.park_id %>">
                 <button>Update Park</button>
             </a>
             <a href="/park">

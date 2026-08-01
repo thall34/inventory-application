@@ -9,21 +9,21 @@
         <%- include('./partials/header.ejs', { title: title }) %>
         <%- include('./partials/form_errors.ejs') %>
         <main> 
-            <form action="<%= coaster.coaster_id %>" method="POST" class="coaster-form">
+            <form action="<%= data.coaster_id %>" method="POST" class="coaster-form">
                 <h2><%= title %></h2>
                 <p>All fields marked with an <span class="red">*</span> are required</p>
                 <label for="coasterName">Name: <span class="red">*</span></label>
-                <input type="text" name="coasterName" id="coasterName" value="<%= coaster.name %>" required>
+                <input type="text" name="coasterName" id="coasterName" value="<%= data.name %>" required>
                 <label for="parkName">Park name: </label>
-                <input type="text" name="parkName" id="parkName" value="<%= coaster.park_name %>">
+                <input type="text" name="parkName" id="parkName" value="<%= data.park_name %>">
                 <label for="coasterInversions">Inversions: <span class="red">*</span></label>
-                <input type="number" name="coasterInversions" id="coasterInversions" min="0" value="<%= coaster.inversions %>" required>
+                <input type="number" name="coasterInversions" id="coasterInversions" min="0" value="<%= data.inversions %>" required>
                 <label for="coasterSpeed">Speed(mph): <span class="red">*</span></label>
-                <input type="number" name="coasterSpeed" id="coasterSpeed" min="0" value="<%= coaster.speed %>" required>
+                <input type="number" name="coasterSpeed" id="coasterSpeed" min="0" value="<%= data.speed %>" required>
                 <label for="coasterHeight">Height(ft): <span class="red">*</span></label>
-                <input type="number" name="coasterHeight" id="coasterHeight" min="0" value="<%= coaster.height %>" required>
+                <input type="number" name="coasterHeight" id="coasterHeight" min="0" value="<%= data.height %>" required>
                 <label for="coasterLength">Length(ft): <span class="red">*</span></label>
-                <input type="number" name="coasterLength" id="coasterLength" min="0" value="<%= coaster.length %>" required>
+                <input type="number" name="coasterLength" id="coasterLength" min="0" value="<%= data.length %>" required>
                 <button type="submit">Submit</button>
             </form>
         </main>

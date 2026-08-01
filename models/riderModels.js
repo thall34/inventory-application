@@ -1,4 +1,4 @@
-const pool = require('./pool');
+const pool = require('../config/pool');
 
 // Selects all riders from the riders table and the coasters associated with each rider, and returns them ordered by rider name
 async function getAllRiders() {

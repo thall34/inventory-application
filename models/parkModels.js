@@ -1,4 +1,4 @@
-const pool = require('./pool');
+const pool = require('../config/pool');
 
 // Selects all parks from the parks table and the list of coasters associated with the park, and returns them ordered by park name
 async function getAllParks() {

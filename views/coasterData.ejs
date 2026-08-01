@@ -9,16 +9,16 @@
         <%- include('./partials/header.ejs', { title: title }) %>
         <main> 
             <ul class="coaster-card more-info">
-                <h2><%= coaster.name %></h2>
-                <li>Inversions: <%= coaster.inversions %></li>
-                <li>Speed: <%= coaster.speed %>mph</li>
-                <li>Height: <%= coaster.height %>ft</li>
-                <li>Length: <%= coaster.length %>ft</li>
-                <li>Park: <%= coaster.park_name %></li>
-                <a href="/coaster/update/<%= coaster.coaster_id %>">
+                <h2><%= data.name %></h2>
+                <li>Inversions: <%= data.inversions %></li>
+                <li>Speed: <%= data.speed %>mph</li>
+                <li>Height: <%= data.height %>ft</li>
+                <li>Length: <%= data.length %>ft</li>
+                <li>Park: <%= data.park_name %></li>
+                <a href="/coaster/update/<%= data.coaster_id %>">
                     <button>Update Coaster</button>
                 </a>
-                <a href="/coaster/addToRider/<%= coaster.coaster_id %>">
+                <a href="/coaster/addToRider/<%= data.coaster_id %>">
                 <button>Add Coaster to Rider</button>
             </a>
             </ul>

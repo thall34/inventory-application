@@ -3,9 +3,9 @@ function validateId(req, res, next) {
     const id = Number(req.params.id);
 
     if (Number.isNaN(id)) {
-        return res.status(405).render('errors', {
-            title: 'Error 405 - Invalid ID',
-            message: 'Error 405 - Invalid ID',
+        return res.status(400).render('errors', {
+            title: 'Error 400 - Invalid ID',
+            message: 'Error 400 - Invalid ID',
         });
     };
 

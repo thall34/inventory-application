@@ -8,8 +8,8 @@
     <body>
         <%- include('./partials/header.ejs', { title: title }) %>
         <main> 
-            <form action="<%= rider.rider_id %>" method="POST" class="rider-form">
-                <h2>Add coaster to <%= rider.name %></h2>
+            <form action="<%= data.rider_id %>" method="POST" class="rider-form">
+                <h2>Add coaster to <%= data.name %></h2>
                 <p>All fields marked with an <span class="red">*</span> are required</p>
                 <label for="coasterName">Name: <span class="red">*</span></label>
                 <input type="text" name="coasterName" id="coasterName" required>
