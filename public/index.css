@@ -2,6 +2,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: rgb(241, 241, 241);
 }
 
 header {
@@ -12,7 +13,8 @@ header {
   align-items: center;
   font-size: 1em;
   padding: 1em 0em;
-  border: 1px solid black;
+  border: 1em double rgb(0, 0, 0);
+  background-color: rgb(255, 153, 51);
 }
 
 header > h1 {
@@ -20,7 +22,6 @@ header > h1 {
 }
 
 nav {
-  border: 1px solid black;
   width: 100%;
   padding: 1em 0em;
 }
@@ -37,21 +38,23 @@ ul {
 }
 
 button {
-  padding: 1em 2em;
+  padding: 0.5em 1em;
   border: 1px solid black;
-  border-radius: 0.8em;
-  font-size: inherit;
+  background-color: black;
+  border-radius: 0.4em;
+  font-size: 1rem;
+  color: white;
 }
 
 main {
   display: flex;
   justify-content: space-evenly;
   padding: 1em 0em;
-  border: 1px solid black;
 }
 
 img {
   width: 30%;
+  border: 0.5em solid black;
 }
 
 footer {
@@ -60,6 +63,8 @@ footer {
   font-size: 1em;
   padding: 2em 0em;
   border: 1px solid black;
+  background-color: rgb(255, 153, 51);
+  border: 1em double rgb(0, 0, 0);
 }
 
 input {

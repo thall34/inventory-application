@@ -21,12 +21,14 @@
                 <p>No coasters found</p>
             <% } %>
             </div>
+            <div class="park-buttons">
             <a href="/park/update/<%= data.park_id %>">
                 <button>Update Park</button>
             </a>
             <a href="/park">
                 <button>Back to park list</button>
             </a>
+            </div>
         </main>
         <%- include('./partials/footer.ejs') %>
     </body>

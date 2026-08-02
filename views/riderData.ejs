@@ -1,36 +1,47 @@
 <html>
-    <head>
-        <title><%= title %></title>
-        <link rel="stylesheet" href="/app.css">
-        <link rel="stylesheet" href="/index.css">
-        <link rel="stylesheet" href="/rider.css">
-    </head>
-    <body>
-        <%- include('./partials/header.ejs', { title: title }) %>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/app.css">
+    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/rider.css">
+</head>
+
+<body>
+    <%- include('./partials/header.ejs', { title: title }) %>
         <main>
-            <div class="rider-card more-info"> 
-                <h2><%= data.name %></h2>
+            <div class="rider-card more-info">
+                <h2>
+                    <%= data.name %>
+                </h2>
                 <h3>Coasters (<%= data.coasters.length %>):</h3>
-                <% if (data.coasters.length > 0) { %>
+                <% if (data.coasters.length> 0) { %>
                     <ul class="coaster-list">
-                        <% data.coasters.forEach((coaster) => { %>
-                            <li><%= coaster %></li>
-                        <% }) %>
+                        <% data.coasters.forEach((coaster)=> { %>
+                            <li>
+                                <%= coaster %>
+                            </li>
+                            <% }) %>
                     </ul>
-            <% } else { %>
-                <p>No coasters logged yet</p>
-            <% } %>
+                    <% } else { %>
+                        <p>No coasters logged yet</p>
+                        <% } %>
             </div>
-            <a href="/rider/update/<%= data.rider_id %>">
-                <button>Update Rider</button>
-            </a>
-            <a href="/rider/addCoaster/<%= data.rider_id %>">
-                <button>Add Coaster to Rider</button>
-            </a>
-            <a href="/rider">
-                <button>Back to rider list</button>
-            </a>
+            <div class='rider-buttons'>
+                <a href="/rider/update/<%= data.rider_id %>">
+                    <button>Update Rider</button>
+                </a>
+                <a href="/rider/addCoaster/<%= data.rider_id %>">
+                    <button>Add Coaster to Rider</button>
+                </a>
+                <a href="/rider">
+                    <button>Back to rider list</button>
+                </a>
+            </div>
         </main>
         <%- include('./partials/footer.ejs') %>
-    </body>
+</body>
+
 </html>

@@ -2,8 +2,11 @@ main {
     font-size: 1em;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 2em;
     gap: 1em;
+    height: 60%;
 }
 
 main > h1 {
@@ -13,7 +16,9 @@ main > h1 {
 .coaster-list {
     display: flex;
     flex-direction: column;
+    width: 100%;
     gap: 1em;
+    background-color: rgb(255, 153, 51);
 }
 
 .coaster-card {
@@ -21,13 +26,16 @@ main > h1 {
   grid-template-columns: repeat(5, 1fr);
   align-items: center;
   padding: 2em;
-  border: 1px solid black;
+  border: 0.5em solid black;
+  font-size: 1.2em;
 }
 
 .more-info {
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 1em;
+    background-color: rgb(255, 153, 51);
+    width: 100%;
 }
 
 .coaster-form {
