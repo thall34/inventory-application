@@ -6,7 +6,6 @@ main {
     justify-content: center;
     padding: 2em;
     gap: 1em;
-    height: 60%;
 }
 
 main > h1 {
@@ -48,4 +47,12 @@ main > h1 {
 
 .coaster-form > button {
     margin-top: 1em;
+}
+
+@media screen and (max-width: 767px) {
+   .coaster-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+   }
 }

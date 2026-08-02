@@ -77,3 +77,32 @@ input {
 .red {
     color: red;
 }
+
+@media screen and (max-width: 767px) {
+  body {
+    font-size: 0.5em;
+  }
+
+  main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  img {
+    width: 90%;
+    border: 0.2em solid black;
+    margin: 0.5em;
+  }
+
+  button {
+    font-size: 0.5rem;
+  }
+
+  header, footer {
+    width: 98%;
+  }
+
+  footer {
+    text-align: center;
+  }
+}
