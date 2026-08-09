@@ -52,6 +52,11 @@ Before installing, ensure you have the following software installed:
 7. **Navigate to the localhost in your browser**
 ```http://localhost:3000```
 
+## Live Preview
+
+### The app can be accessed live at the following link:
+https://inventory-application-qzws.onrender.com/
+
 ## Future improvements
 
 <ol>
